@@ -20,6 +20,7 @@ export async function list(req: Request, res: Response) {
 export async function store(req: Request, res: Response) {
   try {
     const data = await createCampaign(req.body);
+    
     return res.status(httpStatus.CREATED).json(data);
   } catch (error) {
     if (error.name === "DuplicatedRegisterError") {
