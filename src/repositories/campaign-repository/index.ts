@@ -24,7 +24,7 @@ async function create(data: CreateCampaignProps) {
 }
 
 async function update(data: CreateCampaignProps, id: string) {
-   return await campaign.findByIdAndUpdate({ _id: id }, data);
+   return await campaign.updateOne({ _id: id }, data);
 }
 
 

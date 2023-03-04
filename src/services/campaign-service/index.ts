@@ -27,18 +27,18 @@ export async function createCampaign(data: CreateCampaignProps): Promise<CreateC
   return campaignRepository.create(data);
 }
 
-export async function updateCampaign(data: CreateCampaignProps, id: string): Promise<CreateCampaignProps> {
+export async function updateCampaign(data: CreateCampaignProps, id: string): Promise<any> {
 
   const isExists = await campaignRepository.findById(id);
-  
+
   if (!isExists) {
     throw NoContentsToListError();
   }
-    
-    const updateData: CreateCampaignProps = await campaignRepository.update(data, String(id));
 
-    return updateData;
-  }
+  await campaignRepository.update(data, String(id));
+
+  return true;
+}
 
 
 async function validateDuplicateCampaign(title: string) {

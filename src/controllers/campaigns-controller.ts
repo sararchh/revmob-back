@@ -35,8 +35,12 @@ export async function update(req: Request, res: Response) {
   try {
     const { id } = req.headers;
     
+    if(!id) {
+      return res.sendStatus(httpStatus.BAD_REQUEST);
+    }
+
     const data = await updateCampaign(req.body, String(id));
-    return res.status(httpStatus.OK).json(data);
+    return res.sendStatus(httpStatus.OK);
   } catch (error) {
     if (error.name === "DuplicatedRegisterError") {
       return res.status(httpStatus.CONFLICT).send(error);
