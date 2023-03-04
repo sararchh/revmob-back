@@ -4,9 +4,12 @@ import { duplicatedRegisterError, NoContentsToListError } from "./errors";
 export interface CreateCampaignProps {
   title: string,
   author: string,
+  image: string,
   type: string,
   bid: number,
-  segmentation: string
+  segmentation: string,
+  createdAt?: string,
+  __v?: number
 };
 
 export async function listCampaign(segmentation: string): Promise<CreateCampaignProps[]> {
@@ -24,14 +27,26 @@ export async function createCampaign(data: CreateCampaignProps): Promise<CreateC
   return campaignRepository.create(data);
 }
 
+export async function updateCampaign(data: CreateCampaignProps, id: string): Promise<CreateCampaignProps> {
+
+  const isExists = await campaignRepository.findById(id);
+  
+  if (!isExists) {
+    throw NoContentsToListError();
+  }
+    
+    const updateData: CreateCampaignProps = await campaignRepository.update(data, String(id));
+
+    return updateData;
+  }
+
+
 async function validateDuplicateCampaign(title: string) {
   const isExists = await campaignRepository.findByTitle(title);
   if (isExists) {
     throw duplicatedRegisterError();
   }
 }
-
-
 
 
 const campaignService = {
