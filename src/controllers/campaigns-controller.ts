@@ -10,7 +10,7 @@ export async function list(req: Request, res: Response) {
     }
 
     const data = await listCampaign(String(segmentation));
-    return res.status(httpStatus.CREATED).json(data);
+    return res.status(httpStatus.OK).json(data);
 
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send(error);
@@ -20,9 +20,10 @@ export async function list(req: Request, res: Response) {
 export async function store(req: Request, res: Response) {
   try {
     const data = await createCampaign(req.body);
-    
+
     return res.status(httpStatus.CREATED).json(data);
   } catch (error) {
+
     if (error.name === "DuplicatedRegisterError") {
       return res.status(httpStatus.CONFLICT).send(error);
     }
@@ -34,12 +35,12 @@ export async function store(req: Request, res: Response) {
 export async function update(req: Request, res: Response) {
   try {
     const { id } = req.headers;
-    
-    if(!id) {
+
+    if (!id) {
       return res.sendStatus(httpStatus.BAD_REQUEST);
     }
 
-    const data = await updateCampaign(req.body, String(id));
+    await updateCampaign(req.body, String(id));
     return res.sendStatus(httpStatus.OK);
   } catch (error) {
     if (error.name === "DuplicatedRegisterError") {
