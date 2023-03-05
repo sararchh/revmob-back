@@ -19,7 +19,7 @@ npm i
 
 3. To run in development
 ```bash
-npm run start
+npm run dev
 ```
 
 4. To run the tests
